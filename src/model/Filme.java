@@ -1,5 +1,7 @@
 package model;
 
+import java.util.List;
+
 public class Filme extends Item {
-	private Categoria categoria;
+	private List<Categoria> categoria;
 }
