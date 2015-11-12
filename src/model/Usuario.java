@@ -1,5 +1,5 @@
 package model;
 
 public class Usuario {
-	Genero genero;
+	private Genero genero;
 }

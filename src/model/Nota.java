@@ -1,5 +1,5 @@
 package model;
 
 public class Nota {
-	Usuario usuario;
+	private Usuario usuario;
 }
