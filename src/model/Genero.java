@@ -1,19 +1,44 @@
 package model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public enum Genero {
-	Agenero("Agênero"), Androgino("Andrógino"), Bigenero("Bigênero"),
-	HomemCisgenero("Homem cisgênero"), MulherCisgenero("Mulher cisgênero"),
-	DuploEspirito("Duplo espírito"), Genderqueer("Genderqueer"),
-	GeneroEmduvida("Gênero em dúvida"), GeneroFluido("Gênero fluido"),
-	GeneroNaoConformista("Gênero não conformista"), 
-	Generovariante("Gênero variante"), HomemTrans("Homem trans"),
-	MulherTrans("Mulher trans"), Intersex("Intersex"),
-	NaoBinario("Não binário"), Neutrois("Neutrois"), Pangenero("Pangênero"),
-	Transgenero("Transgênero"), Outro("Outro");
+	Agenero("Agênero", "AG"), Androgino("Andrógino", "AD"), Bigenero("Bigênero", "B"),
+	HomemCisgenero("Homem cisgênero", "M"), MulherCisgenero("Mulher cisgênero", "F"),
+	DuploEspirito("Duplo espírito", "DE"), Genderqueer("Genderqueer", "GQ"),
+	GeneroEmduvida("Gênero em dúvida", "GD"), GeneroFluido("Gênero fluido", "GF"),
+	GeneroNaoConformista("Gênero não conformista", "GC"), 
+	Generovariante("Gênero variante", "GV"), HomemTrans("Homem trans", "MT"),
+	MulherTrans("Mulher trans", "MT"), Intersex("Intersex", "I"),
+	NaoBinario("Não binário", "NB"), Neutrois("Neutrois", "N"), Pangenero("Pangênero", "P"),
+	Transgenero("Transgênero", "TG"), Transformer("Transformer", "TF"), Outro("Outro", "O");
 	
 	public String nome;
+	public String abreviatura;
 	
-	Genero(String nome) {
+	private static final Map<String, Genero> lookup = new HashMap<>();
+
+	Genero(String nome, String abreviatura) {
 		this.nome = nome;
+		this.abreviatura = abreviatura;
+	}
+	
+	public String getGenero() {
+		return this.nome;
+	}
+	
+	public String getAbrev() {
+		return this.abreviatura;
+	}
+	
+	static {
+	    //Create reverse lookup hash map 
+	    for(Genero g : Genero.values())
+	        lookup.put(g.getAbrev(), g);
+	}
+	
+	public static Genero get(String abreviatura) { 
+	     return lookup.get(abreviatura); 
 	}
 }
