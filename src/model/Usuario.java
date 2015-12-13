@@ -49,12 +49,6 @@ public class Usuario {
 		this.cep = cep;
 	}
 	
-	public void alterarDados(String ocupacao, String cep, Integer idade) {
-		if (ocupacao != null) this.ocupacao = ocupacao;
-		if (cep != null) this.cep = cep;
-		if (idade != null) this.idade = idade;
-	}
-	
 	public int getId() {
 		return id;
 	}
@@ -77,5 +71,17 @@ public class Usuario {
 
 	public String getCep() {
 		return cep;
+	}
+
+	public void setIdade(int idade) {
+		this.idade = idade;
+	}
+
+	public void setOcupacao(String ocupacao) {
+		this.ocupacao = ocupacao;
+	}
+
+	public void setCep(String cep) {
+		this.cep = cep;
 	}
 }
