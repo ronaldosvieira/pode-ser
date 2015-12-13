@@ -33,7 +33,6 @@ public enum Genero {
 	}
 	
 	static {
-	    //Create reverse lookup hash map 
 	    for(Genero g : Genero.values())
 	        lookup.put(g.getAbrev(), g);
 	}
