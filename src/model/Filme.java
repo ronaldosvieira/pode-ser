@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,6 +11,8 @@ public class Filme extends Item {
 	private Date dataEstreiaVideo;
 	private String imdbUrl;
 	private List<Categoria> categorias;
+	private List<Nota> notas;
+	private List<Integer> assistidoPor;
 	
 	public Filme(int id, String nome, Date dataEstreia, Date dataEstreiaVideo,
 			String imdbUrl, List<Categoria> categorias) {
@@ -19,6 +22,7 @@ public class Filme extends Item {
 		this.dataEstreiaVideo = dataEstreiaVideo;
 		this.imdbUrl = imdbUrl;
 		this.categorias = categorias;
+		this.notas = new ArrayList<>();
 	}
 
 	public int getId() {
@@ -43,5 +47,28 @@ public class Filme extends Item {
 
 	public List<Categoria> getCategorias() {
 		return categorias;
+	}
+	
+	public List<Nota> getNotas() {
+		return notas;
+	}
+	
+	public List<Integer> getAssistidoPor() {
+		return assistidoPor;
+	}
+	
+	public void inserirNota(Nota nota) {
+		for (int i = 0; i < notas.size(); ++i) {
+			if (notas.get(i).getUsuarioId() == nota.getUsuarioId()) {
+				notas.set(i, nota);
+				return;
+			}
+		}
+		
+		this.notas.add(nota);
+	}
+	
+	public void inserirAssistidoPor(int usuarioId) {
+		this.assistidoPor.add(usuarioId);
 	}
 }

@@ -7,7 +7,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,12 +15,14 @@ import java.util.List;
 import model.Categoria;
 import model.Filme;
 import model.Item;
+import model.Nota;
 
 public class ControladorItem {
 	private static ControladorItem instancia;
 	private List<Item> itens;
 
 	private ControladorItem() {
+		this.itens = new ArrayList<>();
 	}
 	
 	public static ControladorItem getInstance() {
@@ -80,21 +81,25 @@ public class ControladorItem {
 	}
 
 	public void deserializarBancoDeDados() {
-		try (BufferedReader brItens = new BufferedReader(new FileReader(new File("./src/data/u.item")))) {
+		try (BufferedReader brItens = new BufferedReader(new FileReader(new File("./src/data/u.item")));
+				BufferedReader brNotas = new BufferedReader(new FileReader(new File("./src/data/u.data")))) {
 			String linha = null;
 			Filme tempFilme;
 			String[] linhaSplit;
+			SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy");
 
 			while ((linha = brItens.readLine()) != null) {
 				linhaSplit = linha.split("[|]");
 				Date dataEstreia, dataEstreiaVideo;
 				List<Categoria> categorias = new ArrayList<Categoria>();
 				
-				if (!linhaSplit[2].equals("")) dataEstreia = new SimpleDateFormat("dd-MMM-yyyy").parse(linhaSplit[2]);
-				else dataEstreia = null;
+				//if (!linhaSplit[2].equals("")) dataEstreia = dateFormat.parse(linhaSplit[2]);
+				//else 
+				dataEstreia = null;
 				
-				if (!linhaSplit[3].equals("")) dataEstreiaVideo = new SimpleDateFormat("dd-MMM-yyyy").parse(linhaSplit[3]);
-				else dataEstreiaVideo = null;
+				//if (!linhaSplit[3].equals("")) dataEstreiaVideo = dateFormat.parse(linhaSplit[3]);
+				//else 
+				dataEstreiaVideo = null;
 				
 				for (int i = 0; i < 19; ++i) {
 					if (linhaSplit[5 + i].equals("1")) {
@@ -108,10 +113,20 @@ public class ControladorItem {
 				
 				getItens().add(tempFilme);
 			}
+			
+			while ((linha = brNotas.readLine()) != null) {
+				linhaSplit = linha.split("\t");
+				
+				Filme filme = ((Filme) this.itens.get(Integer.parseInt(linhaSplit[1]) - 1)); 
+				filme.inserirNota(new Nota(Integer.parseInt(linhaSplit[0]),
+						Integer.parseInt(linhaSplit[2]), new Date(Long.parseLong(linhaSplit[3]))));
+				
+				this.itens.set(Integer.parseInt(linhaSplit[1]) - 1, filme);
+			}
 		} catch (FileNotFoundException e) {
-			System.out.println("Erro: arquivo não encontrado: " + e.getMessage());
-		} catch (ParseException e) {
-			System.out.println("Erro: não foi possível ler data: " + e.getMessage());
+			System.out.println("Erro: arquivo nï¿½o encontrado: " + e.getMessage());
+		//} catch (ParseException e) {
+		//	System.out.println("Erro: nï¿½o foi possï¿½vel ler data: " + e.getMessage());
 		} catch (NumberFormatException e) {
 			System.out.println("Erro: " + e.getMessage());
 		} catch (IOException e) {

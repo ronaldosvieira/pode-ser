@@ -1,21 +1,12 @@
 package control;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.security.InvalidParameterException;
 import java.util.Date;
-import java.util.List;
 
-import model.Categoria;
 import model.Filme;
-import model.Item;
+import model.Nota;
 
 public class ControladorGeral {
 	private static ControladorGeral instancia;
@@ -48,9 +39,18 @@ public class ControladorGeral {
 		cItem.deserializarBancoDeDados();
 	}
 	
+	public void votar(int usuarioId, int filmeId, int notaInt) throws InvalidParameterException {
+		if (notaInt > 5 || notaInt < 0) throw new InvalidParameterException("Vc fez merda seu babaca!");
+		
+		Filme filme = ((Filme) cItem.getItens().get(filmeId - 1));
+		Nota notaObj;
+		
+		filme.inserirNota(new Nota(usuarioId, notaInt, new Date()));
+	}
+	
 	public static void main(String[] args) {
 		ControladorGeral cg = ControladorGeral.getInstance();
 		
-		cg.serializarBancoDeDados();
+		//cg.serializarBancoDeDados();
 	}
 }

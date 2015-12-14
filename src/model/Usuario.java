@@ -10,12 +10,14 @@ public class Usuario {
 	private String ocupacao;
 	private String cep;
 	
+	private boolean ativo;
+	
 	private static String[] listaNomeM = {"Bruno", "Carlos Eduardo", "Fellipe", "Filipe", "Marcelo", 
-			"Ricardo", "Leandro", "Marcel", "Luís Fernando", "Ronaldo", "Rafael"};
-	private static String[] listaNomeF = {"Juliana", "Raquel", "Adria", "Lígia", "Natália", "Isabel", 
+			"Ricardo", "Leandro", "Marcel", "Luï¿½s Fernando", "Ronaldo", "Rafael"};
+	private static String[] listaNomeF = {"Juliana", "Raquel", "Adria", "Lï¿½gia", "Natï¿½lia", "Isabel", 
 			"Maria Elizabeth"};
 	private static String[] listaSobrenome = {"Dembogurski", "Mello", "Duarte", "Braida", "Zamith", 
-			"Corrêa", "Alvim", "Nascente", "Bravo", "Lyra", "Passos", "Silva", "Orleans", "Schots", 
+			"Corrï¿½a", "Alvim", "Nascente", "Bravo", "Lyra", "Passos", "Silva", "Orleans", "Schots", 
 			"Goldschmidt", "Fernandes", "Maiani", "Puelles"};
 	
 	public static String generateName(Genero genero) {
@@ -47,6 +49,7 @@ public class Usuario {
 		this.genero = genero;
 		this.ocupacao = ocupacao;
 		this.cep = cep;
+		this.ativo = true;
 	}
 	
 	public int getId() {
@@ -83,5 +86,9 @@ public class Usuario {
 
 	public void setCep(String cep) {
 		this.cep = cep;
+	}
+	
+	public void desativarUsuario() {
+		this.ativo = false;
 	}
 }

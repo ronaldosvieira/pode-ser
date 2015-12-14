@@ -7,9 +7,13 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
+import model.Filme;
 import model.Genero;
+import model.Item;
+import model.Nota;
 import model.Usuario;
 
 public class ControladorUsuario {
@@ -18,6 +22,7 @@ public class ControladorUsuario {
 	private List<Usuario> usuarios;
 
 	private ControladorUsuario() {
+		this.usuarios = new ArrayList<>();
 	}
 	
 	public static ControladorUsuario getInstance() {
@@ -34,10 +39,53 @@ public class ControladorUsuario {
 		getUsuarios().add(new Usuario(getUsuarios().get(getUsuarios().size()).getId() + 1, 
 				nome, idade, genero, ocupacao, cep));
 	}
+	
 	public void alterarUsuario(int id, String ocupacao, String cep, Integer idade) {
-		if (ocupacao != null) getUsuarios().get(id).setOcupacao(ocupacao);
-		if (cep != null) getUsuarios().get(id).setCep(cep);
-		if (idade != null) getUsuarios().get(id).setIdade(idade);
+		Usuario temp = getUsuarios().get(id - 1);
+		
+		if (ocupacao != null) temp.setOcupacao(ocupacao);
+		if (cep != null) temp.setCep(cep);
+		if (idade != null) temp.setIdade(idade);
+		
+		this.usuarios.set(id - 1, temp);
+	}
+	
+	public boolean removerUsuario(int id) {
+		List<Item> itens = ControladorItem.getInstance().getItens();
+		
+		for (Item item : itens) {
+			List<Nota> notas = ((Filme) item).getNotas();
+			List<Integer> assistidoPor = ((Filme) item).getAssistidoPor();
+			
+			for (Nota nota : notas) {
+				if (nota.getUsuarioId() == id) return false;
+			}
+			
+			for (Integer usuarioId : assistidoPor) {
+				if (usuarioId == id) return false;
+			}
+		}
+		
+		Usuario usuario = this.usuarios.get(id - 1);
+		usuario.desativarUsuario();
+		
+		this.usuarios.set(id - 1, usuario);
+		
+		return true;
+	}
+
+	public List<Filme> obterFilmesAssistidos(int usuarioId) {
+		List<Filme> filmesAssistidos = new ArrayList<>();
+		
+		for (Item item : ControladorItem.getInstance().getItens()) {
+			List<Integer> usuarios = ((Filme) item).getAssistidoPor();
+			
+			for (Integer id : usuarios) {
+				if (id == usuarioId) filmesAssistidos.add((Filme) item);
+			}
+		}
+		
+		return filmesAssistidos;
 	}
 	
 	public void serializarBancoDeDados() {
@@ -77,7 +125,7 @@ public class ControladorUsuario {
 				getUsuarios().add(tempUsuario);
 			}
 		} catch (FileNotFoundException e) {
-			System.out.println("Erro: arquivo não encontrado: " + e.getMessage());
+			System.out.println("Erro: arquivo nï¿½o encontrado: " + e.getMessage());
 		}
 	}
 }
