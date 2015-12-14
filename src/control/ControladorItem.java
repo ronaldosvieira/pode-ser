@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -42,7 +43,8 @@ public class ControladorItem {
 	}
 	
 	public void serializarBancoDeDados() {
-		try (BufferedWriter bwItens = new BufferedWriter(new FileWriter(new File("./src/data/itens")))) {
+		try (BufferedWriter bwItens = new BufferedWriter(new FileWriter(new File("./src/data/itens")));
+				BufferedWriter bwNotas = new BufferedWriter(new FileWriter(new File("./src/data/notas")))) {
 			String output;
 			
 			for (Item item : getItens()) {
@@ -74,6 +76,20 @@ public class ControladorItem {
 				output += "\n";
 				
 				bwItens.write(output);
+			}
+			
+			for (Item item : itens) {
+				output = "";
+				Filme filme = (Filme) item;
+				
+				for (Nota nota : filme.getNotas()) {
+					output += nota.getUsuarioId() + "\t";
+					output += filme.getId() + "\t";
+					output += nota.getNota() + "\t";
+					output += nota.getData().getTime();
+					
+					bwNotas.write(output);
+				}
 			}
 		} catch (IOException e) {
 			System.out.println("Erro ao serializar base de dados: " + e.getMessage());
