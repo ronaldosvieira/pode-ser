@@ -158,17 +158,17 @@ public class ControladorUsuario {
 		List<Filme> filmesAssistidos = obterFilmesAssistidos(usuarioId);
 		
 		for (Filme filme2 : filmesAssistidos) {
-			if (filme2.getNome().equals(filme.getNome())) return true;
+			if if (filme2.getId() == filme.getId()) return true;
 		}
 		
 		return false;
 	}
 	
 	public boolean avaliou(int usuarioId, Filme filme) {
-		List<Filme> filmesAvaliados = obterFilmesAssistidos(usuarioId);
+		List<Filme> filmesAvaliados = obterFilmesAvaliados(usuarioId);
 		
 		for (Filme filme2 : filmesAvaliados) {
-			if (filme2.getNome().equals(filme.getNome())) return true;
+			if (filme2.getId() == filme.getId()) return true;
 		}
 		
 		return false;
