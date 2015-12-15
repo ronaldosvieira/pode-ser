@@ -80,7 +80,13 @@ public class TelaPerfil extends JDialog {
 		cBGenero.setEnabled(false);
 		cBGenero.setEditable(true);
 		cBGenero.setModel(new DefaultComboBoxModel(Genero.values()));
-		cBGenero.setSelectedIndex(19);
+
+		for (int i = 0; i < cBGenero.getModel().getSize(); ++i) {
+			if (((Genero) cBGenero.getModel().getElementAt(i)) == ControladorLogin.getInstance().getUsuarioLogado().getGenero()) {
+				cBGenero.setSelectedIndex(i);
+				break;
+			}
+		}
 		
 		JLabel lblOcupao = new JLabel("Ocupa\u00E7\u00E3o");
 		lblOcupao.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -212,13 +218,13 @@ public class TelaPerfil extends JDialog {
 		btnRemoverConta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(JOptionPane.showConfirmDialog(getDialog(), 
-						"Você deseja REALMENTE excluir sua conta? Esta ação não poderá ser desfeita.", 
+						"Vocï¿½ deseja REALMENTE excluir sua conta? Esta aï¿½ï¿½o nï¿½o poderï¿½ ser desfeita.", 
 						"Excluir conta?", JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 					if (ControladorUsuario.getInstance().removerUsuario(ControladorLogin.getInstance().getUsuarioLogado().getId())) {
 						// TODO back to login
 					} else {
 						JOptionPane.showMessageDialog(getDialog(), 
-								"A conta não pode ser excluida pois contém mais de um filme assistido ou avaliado.", 
+								"A conta nï¿½o pode ser excluida pois contï¿½m mais de um filme assistido ou avaliado.", 
 								"Erro", JOptionPane.INFORMATION_MESSAGE);
 					}
 				}
