@@ -135,12 +135,12 @@ public class TelaPrincipal {
 				if(ControladorUsuario.getInstance().assistiu(
 						ControladorLogin.getInstance().getUsuarioLogado().getId(), (Filme) filmes.get(i))) {
 					dadosFilmes[i][3] = "Sim";
-				} else dadosFilmes[i][3] = "Não";
+				} else dadosFilmes[i][3] = "NÃ£o";
 				
 				if(ControladorUsuario.getInstance().avaliou(
 						ControladorLogin.getInstance().getUsuarioLogado().getId(), (Filme) filmes.get(i))) {
 					dadosFilmes[i][4] = "Sim";
-				} else dadosFilmes[i][4] = "Não";
+				} else dadosFilmes[i][4] = "NÃ£o";
 			}
 		}
 		
@@ -218,12 +218,12 @@ public class TelaPrincipal {
 				if(ControladorUsuario.getInstance().assistiu(
 						ControladorLogin.getInstance().getUsuarioLogado().getId(), (Filme) filmes.get(i))) {
 					dadosFilmes[i][3] = "Sim";
-				} else dadosFilmes[i][3] = "Não";
+				} else dadosFilmes[i][3] = "NÃ£o";
 				
 				if(ControladorUsuario.getInstance().avaliou(
 						ControladorLogin.getInstance().getUsuarioLogado().getId(), (Filme) filmes.get(i))) {
 					dadosFilmes[i][4] = "Sim";
-				} else dadosFilmes[i][4] = "Não";
+				} else dadosFilmes[i][4] = "NÃ£o";
 			}
 		}
 		

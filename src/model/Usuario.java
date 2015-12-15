@@ -13,11 +13,11 @@ public class Usuario {
 	private boolean ativo;
 	
 	private static String[] listaNomeM = {"Bruno", "Carlos Eduardo", "Fellipe", "Filipe", "Marcelo", 
-			"Ricardo", "Leandro", "Marcel", "Lu�s Fernando", "Ronaldo", "Rafael"};
-	private static String[] listaNomeF = {"Juliana", "Raquel", "Adria", "L�gia", "Nat�lia", "Isabel", 
+			"Ricardo", "Leandro", "Marcel", "Luís Fernando", "Ronaldo", "Rafael"};
+	private static String[] listaNomeF = {"Juliana", "Raquel", "Adria", "Lígia", "Natália", "Isabel", 
 			"Maria Elizabeth"};
 	private static String[] listaSobrenome = {"Dembogurski", "Mello", "Duarte", "Braida", "Zamith", 
-			"Corr�a", "Alvim", "Nascente", "Bravo", "Lyra", "Passos", "Silva", "Orleans", "Schots", 
+			"Corrêa", "Alvim", "Nascente", "Bravo", "Lyra", "Passos", "Silva", "Orleans", "Schots", 
 			"Goldschmidt", "Fernandes", "Maiani", "Puelles"};
 	
 	public static String generateName(Genero genero) {

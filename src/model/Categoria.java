@@ -4,11 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum Categoria {
-	Unknown(0, "Desconhecido"), Action(1, "AÁ„o"), Adventure(2, "Aventura"),
-	Animation(3, "AnimaÁ„o"), Childrens(4, "Infantil"), Comedy(5, "ComÈdia"), 
-	Crime(6, "Crime"), Documentary(7, "Document·rio"), Drama(8, "Drama"),
+	Unknown(0, "Desconhecido"), Action(1, "A√ß√£o"), Adventure(2, "Aventura"),
+	Animation(3, "Anima√ß√£o"), Childrens(4, "Infantil"), Comedy(5, "Com√©dia"), 
+	Crime(6, "Crime"), Documentary(7, "Document√°rio"), Drama(8, "Drama"),
 	Fantasy(9, "Fantasia"), FilmNoir(10, "Film-Noir"), Horror(11, "Horror"),
-	Musical(12, "Musical"), Mystery(13, "MistÈrio"), Romance(14, "Romance"),
+	Musical(12, "Musical"), Mystery(13, "Mist√©rio"), Romance(14, "Romance"),
 	SciFi(15, "Sci-fi"), Thriller(16, "Thriller"), War(17, "Guerra"),
 	Western(18, "Velho Oeste");
 	

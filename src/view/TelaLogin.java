@@ -104,7 +104,7 @@ public class TelaLogin extends JDialog {
 					setVisible(false);
 					parent.setVisible(true);
 				} else {
-					JOptionPane.showMessageDialog(getDialog(), "Usu·rio e/ou senha n„o encontrados!", "Erro", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(getDialog(), "Usu√°rio e/ou senha n√£o encontrados!", "Erro", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});

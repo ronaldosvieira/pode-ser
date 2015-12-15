@@ -4,15 +4,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum Genero {
-	Agenero("Agênero", "AG"), Androgino("Andrógino", "AD"), Bigenero("Bigênero", "B"),
-	HomemCisgenero("Homem cisgênero", "M"), MulherCisgenero("Mulher cisgênero", "F"),
-	DuploEspirito("Duplo espírito", "DE"), Genderqueer("Genderqueer", "GQ"),
-	GeneroEmduvida("Gênero em dúvida", "GD"), GeneroFluido("Gênero fluido", "GF"),
-	GeneroNaoConformista("Gênero não conformista", "GC"), 
-	Generovariante("Gênero variante", "GV"), HomemTrans("Homem trans", "MT"),
+	Agenero("AgÃªnero", "AG"), Androgino("AndrÃ³gino", "AD"), Bigenero("BigÃªnero", "B"),
+	HomemCisgenero("Homem cisgÃªnero", "M"), MulherCisgenero("Mulher cisgÃªnero", "F"),
+	DuploEspirito("Duplo espÃ­rito", "DE"), Genderqueer("Genderqueer", "GQ"),
+	GeneroEmduvida("GÃªnero em dÃºvida", "GD"), GeneroFluido("GÃªnero fluido", "GF"),
+	GeneroNaoConformista("GÃªnero nÃ£o conformista", "GC"), 
+	Generovariante("GÃªnero variante", "GV"), HomemTrans("Homem trans", "MT"),
 	MulherTrans("Mulher trans", "MT"), Intersex("Intersex", "I"),
-	NaoBinario("Não binário", "NB"), Neutrois("Neutrois", "N"), Pangenero("Pangênero", "P"),
-	Transgenero("Transgênero", "TG"), Transformer("Transformer", "TF"), Outro("Outro", "O");
+	NaoBinario("NÃ£o binÃ¡rio", "NB"), Neutrois("Neutrois", "N"), Pangenero("PangÃªnero", "P"),
+	Transgenero("TransgÃªnero", "TG"), Transformer("Transformer", "TF"), Outro("Outro", "O");
 	
 	public String nome;
 	public String abreviatura;

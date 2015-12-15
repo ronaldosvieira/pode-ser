@@ -218,13 +218,13 @@ public class TelaPerfil extends JDialog {
 		btnRemoverConta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(JOptionPane.showConfirmDialog(getDialog(), 
-						"Voc� deseja REALMENTE excluir sua conta? Esta a��o n�o poder� ser desfeita.", 
+						"Você deseja REALMENTE excluir sua conta? Esta ação não poderá ser desfeita.", 
 						"Excluir conta?", JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 					if (ControladorUsuario.getInstance().removerUsuario(ControladorLogin.getInstance().getUsuarioLogado().getId())) {
 						// TODO back to login
 					} else {
 						JOptionPane.showMessageDialog(getDialog(), 
-								"A conta n�o pode ser excluida pois cont�m mais de um filme assistido ou avaliado.", 
+								"A conta não pode ser excluida pois contém um ou mais filmes assistidos ou avaliados.", 
 								"Erro", JOptionPane.INFORMATION_MESSAGE);
 					}
 				}

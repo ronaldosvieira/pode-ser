@@ -150,7 +150,7 @@ public class ControladorUsuario {
 				getUsuarios().add(tempUsuario);
 			}
 		} catch (FileNotFoundException e) {
-			System.out.println("Erro: arquivo n„o encontrado: " + e.getMessage());
+			System.out.println("Erro: arquivo n√£o encontrado: " + e.getMessage());
 		}
 	}
 
