@@ -24,6 +24,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import control.ControladorGeral;
 import control.ControladorItem;
 import control.ControladorLogin;
 import control.ControladorUsuario;
@@ -69,6 +70,7 @@ public class TelaPrincipal {
 	 */
 	private TelaPrincipal() {
 		initialize();
+		ControladorGeral.getInstance();
 		this.telaLogin = new TelaLogin(frmPodeSer);
 	}
 	

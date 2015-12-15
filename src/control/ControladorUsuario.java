@@ -23,13 +23,6 @@ public class ControladorUsuario {
 
 	private ControladorUsuario() {
 		this.usuarios = new ArrayList<>();
-		
-		try {
-			deserializarBancoDeDados();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	
 	public static ControladorUsuario getInstance() {
@@ -56,6 +49,8 @@ public class ControladorUsuario {
 		if (idade != null) temp.setIdade(idade);
 		
 		this.usuarios.set(id - 1, temp);
+		
+		serializarBancoDeDados();
 	}
 	
 	public boolean removerUsuario(int id) {
@@ -78,6 +73,8 @@ public class ControladorUsuario {
 		usuario.desativarUsuario();
 		
 		this.usuarios.set(id - 1, usuario);
+		
+		serializarBancoDeDados();
 		
 		return true;
 	}
@@ -124,16 +121,18 @@ public class ControladorUsuario {
 			String output;
 			
 			for (Usuario usuario : getUsuarios()) {
-				output = "";
+				if (usuario.ativo()) {
+					output = "";
 				
-				output += usuario.getId() + "|";
-				output += usuario.getNome() + "|";
-				output += usuario.getIdade() + "|";
-				output += usuario.getGenero().getAbrev() + "|";
-				output += usuario.getOcupacao() + "|";
-				output += usuario.getCep() + "\n";
+					output += usuario.getId() + "|";
+					output += usuario.getNome() + "|";
+					output += usuario.getIdade() + "|";
+					output += usuario.getGenero().getAbrev() + "|";
+					output += usuario.getOcupacao() + "|";
+					output += usuario.getCep() + "\n";
 				
-				bwUsuarios.write(output);
+					bwUsuarios.write(output);
+				}
 			}
 			
 			bwUsuarios.close();

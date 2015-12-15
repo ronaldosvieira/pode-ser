@@ -1,34 +1,25 @@
 package view;
 
+import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
-import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EmptyBorder;
 
 import model.Genero;
-
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.Color;
-import java.util.ArrayList;
-
-import javax.swing.JSpinner;
-import javax.swing.JList;
-import javax.swing.ListSelectionModel;
-import javax.swing.JScrollPane;
-import javax.swing.AbstractListModel;
-import javax.swing.SpinnerNumberModel;
-
 import control.ControladorUsuario;
 
 public class TelaCadastrarUsuario extends JDialog {
@@ -194,7 +185,7 @@ public class TelaCadastrarUsuario extends JDialog {
 		JButton button_1 = new JButton("Cancelar");
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				System.exit(0);
+				dispose();
 			}
 		});
 		button_1.setBounds(509, 380, 88, 23);

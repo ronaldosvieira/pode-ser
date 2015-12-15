@@ -221,6 +221,8 @@ public class TelaPerfil extends JDialog {
 						"Você deseja REALMENTE excluir sua conta? Esta ação não poderá ser desfeita.", 
 						"Excluir conta?", JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 					if (ControladorUsuario.getInstance().removerUsuario(ControladorLogin.getInstance().getUsuarioLogado().getId())) {
+						
+						dispose();
 						TelaPrincipal.getInstance().sair();
 					} else {
 						JOptionPane.showMessageDialog(getDialog(), 

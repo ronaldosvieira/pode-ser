@@ -25,8 +25,6 @@ public class ControladorItem {
 
 	private ControladorItem() {
 		this.itens = new ArrayList<>();
-		
-		deserializarBancoDeDados();
 	}
 	
 	public static ControladorItem getInstance() {
@@ -95,11 +93,11 @@ public class ControladorItem {
 				output += ((Filme) item).getNome() + "|";
 				
 				if (((Filme) item).getDataEstreia() != null) {
-					output += new SimpleDateFormat("dd-MMM-yyyy").format(((Filme) item).getDataEstreia()) + "|";
+					output += new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH).format(((Filme) item).getDataEstreia()) + "|";
 				} else output += "|";
 				
 				if (((Filme) item).getDataEstreiaVideo() != null) {
-					output += new SimpleDateFormat("dd-MMM-yyyy").format(((Filme) item).getDataEstreiaVideo()) + "|";
+					output += new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH).format(((Filme) item).getDataEstreiaVideo()) + "|";
 				} else output += "|";
 				
 				output += ((Filme) item).getImdbUrl() + "|";
