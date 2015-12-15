@@ -91,4 +91,8 @@ public class Usuario {
 	public void desativarUsuario() {
 		this.ativo = false;
 	}
+	
+	public boolean ativo() {
+		return this.ativo;
+	}
 }

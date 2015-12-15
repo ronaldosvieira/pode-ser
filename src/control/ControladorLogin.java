@@ -24,7 +24,7 @@ public class ControladorLogin {
 		List<Usuario> usuarios = ControladorUsuario.getInstance().getUsuarios();
 		
 		for (Usuario usuario : usuarios) {
-			if (usuario.getNome().equals(usuarioId)) {
+			if (usuario.getNome().equals(usuarioId) && usuario.ativo()) {
 				this.usuarioLogado = usuario;
 				TelaPrincipal.getInstance().updateTable();
 				return true;
