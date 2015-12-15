@@ -19,7 +19,10 @@ import javax.swing.JTable;
 import javax.swing.JToolBar;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import control.ControladorItem;
 import control.ControladorLogin;
@@ -113,59 +116,7 @@ public class TelaPrincipal {
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setFillsViewportHeight(true);
 		table.setCellSelectionEnabled(true);
-		
-		List<Item> filmes = ControladorItem.getInstance().getItens();
-		Object[][] dadosFilmes = new Object[filmes.size()][5];
-		
-		if (ControladorLogin.getInstance().logado()) {
-			for (int i = 0; i < filmes.size(); ++i) {
-				dadosFilmes[i][0] = ((Filme) filmes.get(i)).getNome();
-				if(((Filme) filmes.get(i)).getDataEstreia() != null) {
-					dadosFilmes[i][1] = new SimpleDateFormat("dd-MMM-yyyy").format(((Filme) filmes.get(i)).getDataEstreia());
-				} else dadosFilmes[i][1] = "-";
-	
-				float avaliacaoMedia = 0.0f;
-				List<Nota> notas = ((Filme) filmes.get(i)).getNotas();
-				for (int j = 0; j < notas.size(); ++j) {
-					avaliacaoMedia += notas.get(j).getNota();
-				}
-				
-				dadosFilmes[i][2] = avaliacaoMedia / notas.size();
-				
-				if(ControladorUsuario.getInstance().assistiu(
-						ControladorLogin.getInstance().getUsuarioLogado().getId(), (Filme) filmes.get(i))) {
-					dadosFilmes[i][3] = "Sim";
-				} else dadosFilmes[i][3] = "Não";
-				
-				if(ControladorUsuario.getInstance().avaliou(
-						ControladorLogin.getInstance().getUsuarioLogado().getId(), (Filme) filmes.get(i))) {
-					dadosFilmes[i][4] = "Sim";
-				} else dadosFilmes[i][4] = "Não";
-			}
-		}
-		
-		table.setModel(new DefaultTableModel(
-				dadosFilmes,
-				new String[] {
-					"Nome", "Lan\u00E7ado em", "Avalia\u00E7\u00E3o M\u00E9dia", "Visto?", "Avaliado?"
-				}
-			) {
-				Class[] columnTypes = new Class[] {
-					String.class, String.class, Float.class, String.class, String.class
-				};
-				public Class getColumnClass(int columnIndex) {
-					return columnTypes[columnIndex];
-				}
-				boolean[] columnEditables = new boolean[] {
-					false, false, false, true, true
-				};
-				public boolean isCellEditable(int row, int column) {
-					return columnEditables[column];
-				}
-			});
-			table.getColumnModel().getColumn(2).setPreferredWidth(95);
-			table.getColumnModel().getColumn(3).setPreferredWidth(45);
-			table.getColumnModel().getColumn(4).setPreferredWidth(61);
+		updateTable();
 		scrollPane.setViewportView(table);
 		
 		JPanel panel = new JPanel();
@@ -197,15 +148,15 @@ public class TelaPrincipal {
 	
 	public void updateTable() {
 		List<Item> filmes = ControladorItem.getInstance().getItens();
-		Object[][] dadosFilmes = new Object[filmes.size()][5];
+		Object[][] dadosFilmes = new Object[filmes.size()][6];
 		
 		if (ControladorLogin.getInstance().logado()) {
 			for (int i = 0; i < filmes.size(); ++i) {
-				dadosFilmes[i][0] = ((Filme) filmes.get(i)).getNome();
+				dadosFilmes[i][1] = ((Filme) filmes.get(i)).getNome();
 				
 				if(((Filme) filmes.get(i)).getDataEstreia() != null) {
-					dadosFilmes[i][1] = new SimpleDateFormat("dd-MMM-yyyy").format(((Filme) filmes.get(i)).getDataEstreia());
-				} else dadosFilmes[i][1] = "-";
+					dadosFilmes[i][2] = new SimpleDateFormat("dd-MMM-yyyy").format(((Filme) filmes.get(i)).getDataEstreia());
+				} else dadosFilmes[i][2] = "-";
 	
 				float avaliacaoMedia = 0.0f;
 				List<Nota> notas = ((Filme) filmes.get(i)).getNotas();
@@ -213,41 +164,60 @@ public class TelaPrincipal {
 					avaliacaoMedia += notas.get(j).getNota();
 				}
 				
-				dadosFilmes[i][2] = avaliacaoMedia / notas.size();
+				dadosFilmes[i][3] = avaliacaoMedia / notas.size();
 				
 				if(ControladorUsuario.getInstance().assistiu(
 						ControladorLogin.getInstance().getUsuarioLogado().getId(), (Filme) filmes.get(i))) {
-					dadosFilmes[i][3] = "Sim";
-				} else dadosFilmes[i][3] = "Não";
+					dadosFilmes[i][4] = "Sim";
+				} else dadosFilmes[i][4] = "Não";
 				
 				if(ControladorUsuario.getInstance().avaliou(
 						ControladorLogin.getInstance().getUsuarioLogado().getId(), (Filme) filmes.get(i))) {
-					dadosFilmes[i][4] = "Sim";
-				} else dadosFilmes[i][4] = "Não";
+					dadosFilmes[i][5] = "Sim";
+				} else dadosFilmes[i][5] = "Não";
 			}
 		}
 		
 		table.setModel(new DefaultTableModel(
 				dadosFilmes,
 				new String[] {
-					"Nome", "Lan\u00E7ado em", "Avalia\u00E7\u00E3o M\u00E9dia", "Visto?", "Avaliado?"
+					"ID", "Nome", "Lan\u00E7ado em", "Avalia\u00E7\u00E3o M\u00E9dia", "Visto?", "Avaliado?"
 				}
 			) {
 				Class[] columnTypes = new Class[] {
-					String.class, String.class, Float.class, String.class, String.class
+					Integer.class, String.class, String.class, Float.class, String.class, String.class
 				};
 				public Class getColumnClass(int columnIndex) {
 					return columnTypes[columnIndex];
 				}
 				boolean[] columnEditables = new boolean[] {
-					false, false, false, true, true
+					false, false, false, false, false , false
 				};
 				public boolean isCellEditable(int row, int column) {
 					return columnEditables[column];
 				}
 			});
-			table.getColumnModel().getColumn(2).setPreferredWidth(95);
-			table.getColumnModel().getColumn(3).setPreferredWidth(45);
-			table.getColumnModel().getColumn(4).setPreferredWidth(61);
+			table.getColumnModel().getColumn(0).setMinWidth(0);
+			table.getColumnModel().getColumn(0).setMaxWidth(0);
+			table.getColumnModel().getColumn(3).setPreferredWidth(95);
+			table.getColumnModel().getColumn(4).setPreferredWidth(45);
+			table.getColumnModel().getColumn(5).setPreferredWidth(61);
+			table.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+			
+			
+			ListSelectionModel lsm = table.getSelectionModel();
+			lsm.addListSelectionListener(new ListSelectionListener() {
+				
+				@Override
+				public void valueChanged(ListSelectionEvent event) {
+					if (event.getSource() == table.getSelectionModel() 
+							&& event.getFirstIndex() >= 0) {
+						table.setRowSelectionInterval(table.getSelectedRow(), table.getSelectedRow());
+						table.setColumnSelectionInterval(0, table.getColumnCount() - 1);
+					}
+				}
+			});
+			
+			table.setSelectionModel(lsm);
 	}
 }
