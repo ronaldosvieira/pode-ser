@@ -80,7 +80,7 @@ public class TelaPerfil extends JDialog {
 		cBGenero.setEnabled(false);
 		cBGenero.setEditable(true);
 		cBGenero.setModel(new DefaultComboBoxModel(Genero.values()));
-
+		
 		for (int i = 0; i < cBGenero.getModel().getSize(); ++i) {
 			if (((Genero) cBGenero.getModel().getElementAt(i)) == ControladorLogin.getInstance().getUsuarioLogado().getGenero()) {
 				cBGenero.setSelectedIndex(i);
@@ -221,7 +221,7 @@ public class TelaPerfil extends JDialog {
 						"Você deseja REALMENTE excluir sua conta? Esta ação não poderá ser desfeita.", 
 						"Excluir conta?", JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 					if (ControladorUsuario.getInstance().removerUsuario(ControladorLogin.getInstance().getUsuarioLogado().getId())) {
-						// TODO back to login
+						TelaPrincipal.getInstance().sair();
 					} else {
 						JOptionPane.showMessageDialog(getDialog(), 
 								"A conta não pode ser excluida pois contém um ou mais filmes assistidos ou avaliados.", 
