@@ -17,6 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
+import control.ControladorGeral;
 import control.ControladorLogin;
 
 public class TelaLogin extends JDialog {
@@ -115,6 +116,7 @@ public class TelaLogin extends JDialog {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				ControladorGeral.getInstance().serializarBancoDeDados();
 				System.exit(0);
 			}
 		});
