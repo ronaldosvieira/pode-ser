@@ -142,7 +142,7 @@ public class ControladorUsuario {
 			
 			while ((linha = brUsuarios.readLine()) != null) {
 				linhaSplit = linha.split("[|]");
-				
+
 				tempUsuario = new Usuario(Integer.parseInt(linhaSplit[0]), linhaSplit[1],
 						Integer.parseInt(linhaSplit[2]), Genero.get(linhaSplit[3]), 
 						linhaSplit[4], linhaSplit[5]);
@@ -158,7 +158,7 @@ public class ControladorUsuario {
 		List<Filme> filmesAssistidos = obterFilmesAssistidos(usuarioId);
 		
 		for (Filme filme2 : filmesAssistidos) {
-			if if (filme2.getId() == filme.getId()) return true;
+			if (filme2.getId() == filme.getId()) return true;
 		}
 		
 		return false;

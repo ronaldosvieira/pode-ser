@@ -72,4 +72,8 @@ public class Filme extends Item {
 	public void inserirAssistidoPor(int usuarioId) {
 		this.assistidoPor.add(usuarioId);
 	}
+	
+	public void removerAssistidoPor(int usuarioId) {
+		this.assistidoPor.remove((Integer) usuarioId);
+	}
 }

@@ -44,6 +44,37 @@ public class ControladorItem {
 				nome, dataEstreia, dataEstreiaVideo, imdbUrl, categorias));
 	}
 	
+	public Nota obterAvaliacao(int usuarioId, int filmeId) {
+		List<Nota> notas = ((Filme) this.itens.get(filmeId - 1)).getNotas();
+		
+		for (Nota nota : notas) {
+			if (nota.getUsuarioId() == usuarioId) return nota;
+		}
+		
+		return null;
+	}
+	
+	public boolean visto(int usuarioId, int filmeId) {
+		List<Integer> assistido = ((Filme) this.itens.get(filmeId - 1)).getAssistidoPor();
+		
+		for (Integer id : assistido) {
+			if (id == usuarioId) return true;
+		}
+		
+		return false;
+	}
+	
+	public void setVisto(int usuarioId, int filmeId) {
+		Filme filme = ((Filme) this.itens.get(filmeId - 1));
+		if (visto(usuarioId, filmeId)) {
+			filme.removerAssistidoPor(usuarioId);
+		} else {
+			filme.inserirAssistidoPor(usuarioId);
+		}
+		
+		this.itens.set(filmeId - 1, filme);
+	}
+	
 	public void serializarBancoDeDados() {
 		try (BufferedWriter bwItens = new BufferedWriter(new FileWriter(new File("./src/data/itens")));
 				BufferedWriter bwNotas = new BufferedWriter(new FileWriter(new File("./src/data/notas")))) {
@@ -142,9 +173,9 @@ public class ControladorItem {
 				this.itens.set(Integer.parseInt(linhaSplit[1]) - 1, filme);
 			}
 		} catch (FileNotFoundException e) {
-			System.out.println("Erro: arquivo n„o encontrado: " + e.getMessage());
+			System.out.println("Erro: arquivo n√£o encontrado: " + e.getMessage());
 		} catch (ParseException e) {
-			System.out.println("Erro: n„o foi possÔøΩvel ler data: " + e.getMessage());
+			System.out.println("Erro: n√£o foi poss√≠vel ler data: " + e.getMessage());
 		} catch (NumberFormatException e) {
 			System.out.println("Erro: " + e.getMessage());
 		} catch (IOException e) {
