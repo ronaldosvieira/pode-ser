@@ -41,7 +41,7 @@ public class TelaLogin extends JDialog {
 		
 		setResizable(false);
 		setTitle("Pode Ser? - Login");
-		setBounds(100, 100, 265, 150);
+		setBounds(100, 100, 365, 150);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		JLabel lblUsuario = new JLabel("Usu\u00E1rio");
 		lblUsuario.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -120,6 +120,14 @@ public class TelaLogin extends JDialog {
 				System.exit(0);
 			}
 		});
+		
+		JButton btnCadastrarUsuario = new JButton("Cadastrar-se");
+		btnCadastrarUsuario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				new TelaCadastrarUsuario().setVisible(true);
+			}
+		});
+		panel.add(btnCadastrarUsuario);
 		panel.add(btnCancelar);
 		getContentPane().setLayout(groupLayout);
 	}

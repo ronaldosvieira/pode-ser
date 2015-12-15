@@ -43,8 +43,9 @@ public class ControladorUsuario {
 	}
 
 	public void inserirUsuario(String nome, int idade, Genero genero, String ocupacao, String cep) {
-		getUsuarios().add(new Usuario(getUsuarios().get(getUsuarios().size()).getId() + 1, 
+		getUsuarios().add(new Usuario(getUsuarios().get(getUsuarios().size() - 1).getId() + 1, 
 				nome, idade, genero, ocupacao, cep));
+		serializarBancoDeDados();
 	}
 	
 	public void alterarUsuario(int id, String ocupacao, String cep, Integer idade) {
@@ -114,7 +115,12 @@ public class ControladorUsuario {
 	}
 	
 	public void serializarBancoDeDados() {
-		try (BufferedWriter bwUsuarios = new BufferedWriter(new FileWriter(new File("./src/data/usuarios")))) {
+		try {
+			File fileUsuarios = new File("./src/data/usuarios");
+			
+			fileUsuarios.delete();
+			
+			BufferedWriter bwUsuarios = new BufferedWriter(new FileWriter(fileUsuarios));
 			String output;
 			
 			for (Usuario usuario : getUsuarios()) {
@@ -129,6 +135,8 @@ public class ControladorUsuario {
 				
 				bwUsuarios.write(output);
 			}
+			
+			bwUsuarios.close();
 		} catch (IOException e) {
 			System.out.println("Erro ao serializar base de dados: " + e.getMessage());
 		}

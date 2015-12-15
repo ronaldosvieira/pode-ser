@@ -180,7 +180,7 @@ public class TelaPerfil extends JDialog {
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE))
 		);
 		
-		JButton btnEntrar = new JButton("Editar");
+		final JButton btnEntrar = new JButton("Editar");
 		btnEntrar.addActionListener(new ActionListener() {
 			
 			@Override

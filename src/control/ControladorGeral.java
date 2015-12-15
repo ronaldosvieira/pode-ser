@@ -40,7 +40,7 @@ public class ControladorGeral {
 	}
 	
 	public void votar(int usuarioId, int filmeId, int notaInt) throws InvalidParameterException {
-		if (notaInt > 5 || notaInt < 0) throw new InvalidParameterException("Vc fez merda seu babaca!");
+		if (notaInt > 5 || notaInt < 0) throw new InvalidParameterException("Nota não pode ser menor que 0 ou maior que 5!");
 		
 		Filme filme = ((Filme) cItem.getItens().get(filmeId - 1));
 		Nota notaObj;
@@ -50,7 +50,5 @@ public class ControladorGeral {
 	
 	public static void main(String[] args) {
 		ControladorGeral cg = ControladorGeral.getInstance();
-		
-		//cg.serializarBancoDeDados();
 	}
 }

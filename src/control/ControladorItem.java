@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import model.Categoria;
 import model.Filme;
@@ -76,8 +77,15 @@ public class ControladorItem {
 	}
 	
 	public void serializarBancoDeDados() {
-		try (BufferedWriter bwItens = new BufferedWriter(new FileWriter(new File("./src/data/itens")));
-				BufferedWriter bwNotas = new BufferedWriter(new FileWriter(new File("./src/data/notas")))) {
+		try {
+			File fileItens = new File("./src/data/itens");
+			File fileNotas = new File("./src/data/notas");
+			
+			fileItens.delete();
+			fileNotas.delete();
+			
+			BufferedWriter bwItens = new BufferedWriter(new FileWriter(fileItens));
+			BufferedWriter bwNotas = new BufferedWriter(new FileWriter(fileNotas));
 			String output;
 			
 			for (Item item : getItens()) {
@@ -124,18 +132,21 @@ public class ControladorItem {
 					bwNotas.write(output);
 				}
 			}
+			
+			bwItens.close();
+			bwNotas.close();
 		} catch (IOException e) {
 			System.out.println("Erro ao serializar base de dados: " + e.getMessage());
 		}
 	}
 
 	public void deserializarBancoDeDados() {
-		try (BufferedReader brItens = new BufferedReader(new FileReader(new File("./src/data/u.item")));
-				BufferedReader brNotas = new BufferedReader(new FileReader(new File("./src/data/u.data")))) {
+		try (BufferedReader brItens = new BufferedReader(new FileReader(new File("./src/data/itens")));
+			BufferedReader brNotas = new BufferedReader(new FileReader(new File("./src/data/u.data")))) {
 			String linha = null;
 			Filme tempFilme;
 			String[] linhaSplit;
-			SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy");
+			SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
 
 			while ((linha = brItens.readLine()) != null) {
 				linhaSplit = linha.split("[|]");
@@ -162,7 +173,6 @@ public class ControladorItem {
 				
 				getItens().add(tempFilme);
 			}
-			
 			while ((linha = brNotas.readLine()) != null) {
 				linhaSplit = linha.split("\t");
 				
@@ -172,6 +182,9 @@ public class ControladorItem {
 				
 				this.itens.set(Integer.parseInt(linhaSplit[1]) - 1, filme);
 			}
+			
+			brItens.close();
+			brNotas.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("Erro: arquivo não encontrado: " + e.getMessage());
 		} catch (ParseException e) {
