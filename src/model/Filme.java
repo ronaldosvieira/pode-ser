@@ -23,6 +23,7 @@ public class Filme extends Item {
 		this.imdbUrl = imdbUrl;
 		this.categorias = categorias;
 		this.notas = new ArrayList<>();
+		this.assistidoPor = new ArrayList<Integer>();
 	}
 
 	public int getId() {

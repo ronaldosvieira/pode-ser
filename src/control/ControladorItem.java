@@ -7,7 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,6 +24,8 @@ public class ControladorItem {
 
 	private ControladorItem() {
 		this.itens = new ArrayList<>();
+		
+		deserializarBancoDeDados();
 	}
 	
 	public static ControladorItem getInstance() {
@@ -109,12 +111,12 @@ public class ControladorItem {
 				Date dataEstreia, dataEstreiaVideo;
 				List<Categoria> categorias = new ArrayList<Categoria>();
 				
-				//if (!linhaSplit[2].equals("")) dataEstreia = dateFormat.parse(linhaSplit[2]);
-				//else 
+				if (!linhaSplit[2].equals("")) dataEstreia = dateFormat.parse(linhaSplit[2]);
+				else 
 				dataEstreia = null;
 				
-				//if (!linhaSplit[3].equals("")) dataEstreiaVideo = dateFormat.parse(linhaSplit[3]);
-				//else 
+				if (!linhaSplit[3].equals("")) dataEstreiaVideo = dateFormat.parse(linhaSplit[3]);
+				else 
 				dataEstreiaVideo = null;
 				
 				for (int i = 0; i < 19; ++i) {
@@ -140,9 +142,9 @@ public class ControladorItem {
 				this.itens.set(Integer.parseInt(linhaSplit[1]) - 1, filme);
 			}
 		} catch (FileNotFoundException e) {
-			System.out.println("Erro: arquivo nï¿½o encontrado: " + e.getMessage());
-		//} catch (ParseException e) {
-		//	System.out.println("Erro: nï¿½o foi possï¿½vel ler data: " + e.getMessage());
+			System.out.println("Erro: arquivo não encontrado: " + e.getMessage());
+		} catch (ParseException e) {
+			System.out.println("Erro: não foi possï¿½vel ler data: " + e.getMessage());
 		} catch (NumberFormatException e) {
 			System.out.println("Erro: " + e.getMessage());
 		} catch (IOException e) {

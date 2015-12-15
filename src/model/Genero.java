@@ -40,4 +40,15 @@ public enum Genero {
 	public static Genero get(String abreviatura) { 
 	     return lookup.get(abreviatura); 
 	}
+	
+	public static String[] getReadableValues() {
+		Genero[] valores = values();
+		String nomes[] = new String[valores.length];
+		
+		for (int i = 0; i < valores.length; ++i) {
+			nomes[i] = valores[i].nome;
+		}
+		
+		return nomes;
+	}
 }

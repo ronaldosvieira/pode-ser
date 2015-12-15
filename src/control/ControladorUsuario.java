@@ -23,6 +23,13 @@ public class ControladorUsuario {
 
 	private ControladorUsuario() {
 		this.usuarios = new ArrayList<>();
+		
+		try {
+			deserializarBancoDeDados();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public static ControladorUsuario getInstance() {
@@ -80,12 +87,30 @@ public class ControladorUsuario {
 		for (Item item : ControladorItem.getInstance().getItens()) {
 			List<Integer> usuarios = ((Filme) item).getAssistidoPor();
 			
-			for (Integer id : usuarios) {
-				if (id == usuarioId) filmesAssistidos.add((Filme) item);
+			if (usuarios.size() > 0) {
+				for (Integer id : usuarios) {
+					if (id == usuarioId) filmesAssistidos.add((Filme) item);
+				}
 			}
 		}
 		
 		return filmesAssistidos;
+	}
+	
+	public List<Filme> obterFilmesAvaliados(int usuarioId) {
+		List<Filme> filmesAvaliados = new ArrayList<>();
+		
+		for (Item item : ControladorItem.getInstance().getItens()) {
+			List<Nota> notas = ((Filme) item).getNotas();
+			for (int i = 0; i < notas.size(); ++i) {
+				if (notas.get(i).getUsuarioId() == usuarioId) {
+					filmesAvaliados.add((Filme) item);
+					break;
+				}
+			}
+		}
+		
+		return filmesAvaliados;
 	}
 	
 	public void serializarBancoDeDados() {
@@ -125,7 +150,27 @@ public class ControladorUsuario {
 				getUsuarios().add(tempUsuario);
 			}
 		} catch (FileNotFoundException e) {
-			System.out.println("Erro: arquivo nï¿½o encontrado: " + e.getMessage());
+			System.out.println("Erro: arquivo não encontrado: " + e.getMessage());
 		}
+	}
+
+	public boolean assistiu(int usuarioId, Filme filme) {
+		List<Filme> filmesAssistidos = obterFilmesAssistidos(usuarioId);
+		
+		for (Filme filme2 : filmesAssistidos) {
+			if (filme2.getNome().equals(filme.getNome())) return true;
+		}
+		
+		return false;
+	}
+	
+	public boolean avaliou(int usuarioId, Filme filme) {
+		List<Filme> filmesAvaliados = obterFilmesAssistidos(usuarioId);
+		
+		for (Filme filme2 : filmesAvaliados) {
+			if (filme2.getNome().equals(filme.getNome())) return true;
+		}
+		
+		return false;
 	}
 }
