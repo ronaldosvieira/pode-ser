@@ -1,29 +1,29 @@
 package view;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EmptyBorder;
 
+import model.Genero;
 import control.ControladorLogin;
 import control.ControladorUsuario;
-
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-import model.Genero;
-import java.awt.Color;
 
 public class TelaPerfil extends JDialog {
 	private JFrame parent;
@@ -31,10 +31,10 @@ public class TelaPerfil extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTextField tFId;
 	private JTextField tFNome;
-	private JTextField tFIdade;
 	private JTextField tFOcupacao;
 	private JTextField tFCep;
-
+	
+	private JSpinner campoIdade;
 	/**
 	 * Create the dialog.
 	 */
@@ -65,13 +65,8 @@ public class TelaPerfil extends JDialog {
 		tFNome.setText(ControladorLogin.getInstance().getUsuarioLogado().getNome());
 		tFNome.setColumns(20);
 		
-		JLabel lblIdade = new JLabel("Idade");
+		JLabel lblIdade = new JLabel("Idade:");
 		lblIdade.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		
-		tFIdade = new JTextField();
-		tFIdade.setEditable(false);
-		tFIdade.setText(String.valueOf(ControladorLogin.getInstance().getUsuarioLogado().getIdade()));
-		tFIdade.setColumns(5);
 		
 		JLabel lblGnero = new JLabel("G\u00EAnero");
 		lblGnero.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -103,6 +98,11 @@ public class TelaPerfil extends JDialog {
 		tFCep.setText(ControladorLogin.getInstance().getUsuarioLogado().getCep());
 		tFCep.setEditable(false);
 		tFCep.setColumns(20);
+		
+		campoIdade = new JSpinner();	
+		campoIdade.setEnabled(false);		
+		campoIdade.setModel(new SpinnerNumberModel(ControladorLogin.getInstance().getUsuarioLogado().getIdade(), 7, 200, 1));
+		
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.LEADING)
@@ -117,10 +117,11 @@ public class TelaPerfil extends JDialog {
 							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_contentPanel.createSequentialGroup()
 									.addComponent(tFId, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
-									.addComponent(lblIdade)
+									.addPreferredGap(ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+									.addComponent(lblIdade, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(tFIdade, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE))
+									.addComponent(campoIdade, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addGap(11))
 								.addComponent(tFNome, GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)))
 						.addGroup(gl_contentPanel.createSequentialGroup()
 							.addComponent(lblCep)
@@ -133,7 +134,7 @@ public class TelaPerfil extends JDialog {
 						.addGroup(gl_contentPanel.createSequentialGroup()
 							.addComponent(lblGnero)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(cBGenero, 0, 173, Short.MAX_VALUE)))
+							.addComponent(cBGenero, 0, 181, Short.MAX_VALUE)))
 					.addGap(15))
 		);
 		gl_contentPanel.setVerticalGroup(
@@ -143,8 +144,8 @@ public class TelaPerfil extends JDialog {
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblId)
 						.addComponent(tFId, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(tFIdade, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblIdade))
+						.addComponent(lblIdade)
+						.addComponent(campoIdade, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblNome)
@@ -161,7 +162,7 @@ public class TelaPerfil extends JDialog {
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblCep)
 						.addComponent(tFCep, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(22, Short.MAX_VALUE))
+					.addContainerGap(37, Short.MAX_VALUE))
 		);
 		contentPanel.setLayout(gl_contentPanel);
 		
@@ -185,21 +186,24 @@ public class TelaPerfil extends JDialog {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (btnEntrar.getText().equals("Editar")) {
-					tFIdade.setEditable(true);
+				if (btnEntrar.getText().equals("Editar")) {					
 					tFOcupacao.setEditable(true);
 					tFCep.setEditable(true);
+					campoIdade.setEnabled(true);
 					btnEntrar.setText("Salvar");
+					
 				} else {
-					tFIdade.setEditable(false);
+					
 					tFOcupacao.setEditable(false);
 					tFCep.setEditable(false);
+					campoIdade.setEnabled(false);
+					dispose();
 					btnEntrar.setText("Editar");
 					
 					ControladorUsuario.getInstance().alterarUsuario(
 							ControladorLogin.getInstance().getUsuarioLogado().getId(), 
-							tFOcupacao.getText(), tFCep.getText(), 
-							Integer.parseInt(tFIdade.getText()));
+							tFOcupacao.getText(), tFCep.getText(), 							
+							Integer.parseInt(campoIdade.getValue().toString()));
 				}
 			}
 		});
