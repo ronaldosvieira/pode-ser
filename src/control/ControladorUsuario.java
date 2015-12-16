@@ -78,6 +78,32 @@ public class ControladorUsuario {
 		
 		return true;
 	}
+	
+	public Usuario obterUsuarioMaisProximo(int usuarioId) {
+		Usuario usuarioMaisProximo = this.usuarios.get(0);
+		int usuarioMaisProxSoma = 0;
+		int soma = 0;
+		List<Filme> avaliados = obterFilmesAvaliados(usuarioId);
+		
+		for (int i = 0; i < this.usuarios.size(); ++i) {
+			soma = 0;
+			
+			List<Filme> avaliados2 = obterFilmesAvaliados(this.usuarios.get(i).getId());
+			
+			for (Filme filme : avaliados) {
+				for (Filme filme2 : avaliados2) {
+					if (filme.getId() == filme2.getId()) soma += 1;
+				}
+			}
+			
+			if (soma > usuarioMaisProxSoma) {
+				usuarioMaisProximo = this.usuarios.get(i);
+				usuarioMaisProxSoma = soma;
+			}
+		}
+		
+		return usuarioMaisProximo;
+	}
 
 	public List<Filme> obterFilmesAssistidos(int usuarioId) {
 		List<Filme> filmesAssistidos = new ArrayList<>();

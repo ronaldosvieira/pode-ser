@@ -19,6 +19,7 @@ import model.Categoria;
 import model.Filme;
 import model.Item;
 import model.Nota;
+import model.Usuario;
 
 public class ControladorItem {
 	private static ControladorItem instancia;
@@ -87,6 +88,19 @@ public class ControladorItem {
 		this.itens.set(filmeId - 1, filme);
 		
 		serializarBancoDeDados();
+	}
+	
+	public List<Filme> getRecomendacoes(int usuarioId) {
+		Usuario maisProx = ControladorUsuario.getInstance().obterUsuarioMaisProximo(usuarioId);
+		List<Filme> recomendacoes = new ArrayList<Filme>();
+		
+		for (Filme filme : ControladorUsuario.getInstance().obterFilmesAvaliados(maisProx.getId())) {
+			if (!ControladorUsuario.getInstance().assistiu(usuarioId, filme)) {
+				recomendacoes.add(filme);
+			}
+		}
+		
+		return recomendacoes;
 	}
 	
 	public void serializarBancoDeDados() {

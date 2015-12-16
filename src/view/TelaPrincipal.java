@@ -274,6 +274,17 @@ public class TelaPrincipal {
 				sair();
 			}
 		});
+		
+		JButton btnObterRecomendaes = new JButton("Obter Recomendações");
+		btnObterRecomendaes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				TelaRecomendacoes tR = new TelaRecomendacoes(
+						ControladorItem.getInstance().getRecomendacoes(
+								ControladorLogin.getInstance().getUsuarioLogado().getId()));
+				tR.setVisible(true);
+			}
+		});
+		toolBar.add(btnObterRecomendaes);
 		toolBar.add(btnSair);
 		frmPodeSer.getContentPane().setLayout(groupLayout);
 	}
