@@ -117,21 +117,23 @@ public class ControladorItem {
 				bwItens.write(output);
 			}
 			
+			bwItens.close();
+			
 			for (Item item : itens) {
-				output = "";
 				Filme filme = (Filme) item;
 				
 				for (Nota nota : filme.getNotas()) {
+					output = "";
+					
 					output += nota.getUsuarioId() + "\t";
 					output += filme.getId() + "\t";
 					output += nota.getNota() + "\t";
-					output += nota.getData().getTime();
+					output += nota.getData().getTime() + "\n";
 					
 					bwNotas.write(output);
 				}
 			}
 			
-			bwItens.close();
 			bwNotas.close();
 		} catch (IOException e) {
 			System.out.println("Erro ao serializar base de dados: " + e.getMessage());
