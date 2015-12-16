@@ -51,4 +51,8 @@ public enum Genero {
 		
 		return nomes;
 	}
+	
+	public String toString() {
+		return this.nome;
+	}
 }

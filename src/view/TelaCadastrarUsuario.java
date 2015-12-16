@@ -21,6 +21,7 @@ import javax.swing.border.EmptyBorder;
 
 import model.Genero;
 import control.ControladorUsuario;
+import java.awt.Dimension;
 
 public class TelaCadastrarUsuario extends JDialog {
 	
@@ -132,6 +133,9 @@ public class TelaCadastrarUsuario extends JDialog {
 		panelDados.add(campoIdade);
 		
 		JButton btnConfirmar = new JButton("Confirmar");
+		btnConfirmar.setPreferredSize(new Dimension(125, 23));
+		btnConfirmar.setMinimumSize(new Dimension(125, 23));
+		btnConfirmar.setMaximumSize(new Dimension(125, 23));
 		btnConfirmar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				hasErro=false;
@@ -179,16 +183,19 @@ public class TelaCadastrarUsuario extends JDialog {
 		    	}
 			}
 		});
-		btnConfirmar.setBounds(406, 380, 93, 23);
+		btnConfirmar.setBounds(335, 380, 125, 23);
 		contentPane.add(btnConfirmar);
 		
 		JButton button_1 = new JButton("Cancelar");
+		button_1.setPreferredSize(new Dimension(125, 23));
+		button_1.setMinimumSize(new Dimension(125, 23));
+		button_1.setMaximumSize(new Dimension(125, 23));
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				dispose();
 			}
 		});
-		button_1.setBounds(509, 380, 88, 23);
+		button_1.setBounds(472, 380, 125, 23);
 		contentPane.add(button_1);
 		
 		nomeInvalido = new JLabel("Preencha o campo!");

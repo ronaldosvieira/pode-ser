@@ -11,12 +11,11 @@ import java.security.InvalidParameterException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import model.Categoria;
 import model.Filme;
@@ -106,7 +105,7 @@ public class ControladorItem {
 		return recomendacoes;
 	}
 	public List<Filme> getMaisVotados() {
-		int votos[] = new int[this.itens.size()];
+		final int votos[] = new int[this.itens.size()];
 		List<Integer> ids = new ArrayList<>();
 		int soma;
 		
@@ -122,7 +121,7 @@ public class ControladorItem {
 			ids.add(((Filme) itens.get(i)).getId());
 		}
 		
-		ids.sort(new Comparator<Integer>() {
+		Collections.sort(ids, new Comparator<Integer>() {
 
 			@Override
 			public int compare(Integer o1, Integer o2) {
