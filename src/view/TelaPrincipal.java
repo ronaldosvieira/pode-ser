@@ -1,5 +1,7 @@
 package view;
 
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -14,29 +16,25 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSlider;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JToolBar;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 import control.ControladorGeral;
 import control.ControladorItem;
 import control.ControladorLogin;
 import control.ControladorUsuario;
+import model.Categoria;
 import model.Filme;
 import model.Item;
 import model.Nota;
-import java.awt.Color;
-import java.awt.Dimension;
-
-import javax.swing.JRadioButton;
-import javax.swing.JSlider;
-import javax.swing.SwingConstants;
 
 public class TelaPrincipal {
 	private static TelaPrincipal instancia;
@@ -51,6 +49,14 @@ public class TelaPrincipal {
 	int lastSelectedRowIndex;
 
 	private JSplitPane splitPane;
+
+	private JLabel lblTtulo;
+
+	private JLabel labelAval;
+
+	private JLabel lblVistoPorVoc;
+
+	private JLabel lblListadegeneros;
 
 	/**
 	 * Launch the application.
@@ -184,24 +190,64 @@ public class TelaPrincipal {
 			}
 		});
 		btnEnviarAvaliao.setEnabled(false);
+		
+		lblTtulo = new JLabel("Título");
+		lblTtulo.setFont(new Font("Dialog", Font.BOLD, 14));
+		lblTtulo.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTtulo.setForeground(Color.WHITE);
+		
+		labelAval = new JLabel("");
+		labelAval.setForeground(Color.WHITE);
+		
+		JLabel lblAvaliaoMdia = new JLabel("Avaliação média:");
+		lblAvaliaoMdia.setForeground(Color.WHITE);
+		
+		lblVistoPorVoc = new JLabel("");
+		
+		JLabel lblGneros = new JLabel("Gêneros:");
+		lblGneros.setForeground(new Color(255, 255, 255));
+		
+		lblListadegeneros = new JLabel("");
+		lblListadegeneros.setForeground(new Color(255, 255, 255));
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panel.createSequentialGroup()
-					.addContainerGap(33, Short.MAX_VALUE)
+					.addContainerGap()
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-								.addComponent(btnMarcarVisto)
-								.addComponent(lblAvaliar, Alignment.TRAILING))
-							.addComponent(slider, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addComponent(btnEnviarAvaliao, Alignment.TRAILING))
+						.addComponent(lblTtulo, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
+						.addGroup(Alignment.TRAILING, gl_panel.createParallelGroup(Alignment.LEADING)
+							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+								.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+									.addComponent(btnMarcarVisto)
+									.addComponent(lblAvaliar, Alignment.TRAILING))
+								.addComponent(slider, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addComponent(btnEnviarAvaliao, Alignment.TRAILING))
+						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+							.addComponent(lblAvaliaoMdia)
+							.addGap(18)
+							.addComponent(labelAval))
+						.addComponent(lblVistoPorVoc, Alignment.TRAILING)
+						.addComponent(lblGneros, Alignment.TRAILING)
+						.addComponent(lblListadegeneros, Alignment.TRAILING))
 					.addContainerGap())
 		);
 		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
+			gl_panel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(40)
+					.addContainerGap()
+					.addComponent(lblTtulo, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(labelAval)
+						.addComponent(lblAvaliaoMdia))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(lblVistoPorVoc)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(lblGneros)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(lblListadegeneros)
+					.addPreferredGap(ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
 					.addComponent(btnMarcarVisto)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(lblAvaliar)
@@ -209,7 +255,7 @@ public class TelaPrincipal {
 					.addComponent(slider, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(btnEnviarAvaliao)
-					.addContainerGap(188, Short.MAX_VALUE))
+					.addContainerGap())
 		);
 		panel.setLayout(gl_panel);
 		
@@ -272,6 +318,27 @@ public class TelaPrincipal {
 					} else {
 						btnMarcarVisto.setText("Marcar como visto");
 					}
+					
+					lblTtulo.setText(((Filme) ControladorItem.getInstance().getItens().get(lastSelectedRowIndex)).getNome());
+					labelAval.setText(String.valueOf(table.getValueAt(lastSelectedRowIndex, 3)));
+					
+					if (ControladorItem.getInstance().visto(
+							ControladorLogin.getInstance().getUsuarioLogado().getId(), lastSelectedRowIndex + 1)) {
+						lblVistoPorVoc.setText("Visto por você");
+						lblVistoPorVoc.setForeground(new Color(50, 205, 50));
+					} else {
+						lblVistoPorVoc.setText("Não visto por você");
+						lblVistoPorVoc.setForeground(new Color(205, 50, 50));
+					}
+					
+					List<Categoria> categorias = ((Filme) ControladorItem.getInstance().getItens().get(lastSelectedRowIndex)).getCategorias();
+					String cats = "";
+					
+					for (Categoria categoria : categorias) {
+						cats += categoria.getNome() + " ";
+					}
+					
+					lblListadegeneros.setText(cats);
 					
 					slider.setEnabled(true);
 					btnEnviarAvaliao.setEnabled(true);
