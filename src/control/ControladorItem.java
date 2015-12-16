@@ -11,9 +11,12 @@ import java.security.InvalidParameterException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import model.Categoria;
 import model.Filme;
@@ -101,6 +104,39 @@ public class ControladorItem {
 		}
 		
 		return recomendacoes;
+	}
+	public List<Filme> getMaisVotados() {
+		int votos[] = new int[this.itens.size()];
+		List<Integer> ids = new ArrayList<>();
+		int soma;
+		
+		for (int i = 0; i < this.itens.size(); ++i) {
+			soma = 0;
+			List<Nota> notas = ((Filme) itens.get(i)).getNotas();
+			
+			for (Nota nota : notas) {
+				soma += nota.getNota();
+			}
+			
+			votos[i] = soma;
+			ids.add(((Filme) itens.get(i)).getId());
+		}
+		
+		ids.sort(new Comparator<Integer>() {
+
+			@Override
+			public int compare(Integer o1, Integer o2) {
+				return votos[o1 - 1] - votos[o2 - 1];
+			}
+		});
+		
+		List<Filme> maisVotados = new ArrayList<Filme>();
+		
+		for (Integer id : ids) {
+			maisVotados.add((Filme) this.itens.get(id - 1));
+		}
+		
+		return maisVotados;
 	}
 	
 	public void serializarBancoDeDados() {

@@ -57,6 +57,7 @@ public class TelaPrincipal {
 	private JLabel lblVistoPorVoc;
 
 	private JLabel lblListadegeneros;
+	private JButton btnFilmesMaisVotados;
 
 	/**
 	 * Launch the application.
@@ -151,8 +152,12 @@ public class TelaPrincipal {
 			public void actionPerformed(ActionEvent arg0) {
 				if (btnMarcarVisto.getText().equals("Marcar como visto")) {
 					btnMarcarVisto.setText("Marcar como não visto");
+					lblVistoPorVoc.setText("Visto por você");
+					lblVistoPorVoc.setForeground(new Color(50, 205, 50));
 				} else {
 					btnMarcarVisto.setText("Marcar como visto");
+					lblVistoPorVoc.setText("Não visto por você");
+					lblVistoPorVoc.setForeground(new Color(205, 50, 50));
 				}
 				
 				ControladorItem.getInstance().setVisto(
@@ -285,6 +290,16 @@ public class TelaPrincipal {
 			}
 		});
 		toolBar.add(btnObterRecomendaes);
+		
+		btnFilmesMaisVotados = new JButton("Filmes Mais Votados");
+		btnFilmesMaisVotados.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TelaMaisVotados tMV = new TelaMaisVotados(
+						ControladorItem.getInstance().getMaisVotados());
+				tMV.setVisible(true);
+			}
+		});
+		toolBar.add(btnFilmesMaisVotados);
 		toolBar.add(btnSair);
 		frmPodeSer.getContentPane().setLayout(groupLayout);
 	}
