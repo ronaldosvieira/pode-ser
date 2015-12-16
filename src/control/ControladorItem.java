@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.security.InvalidParameterException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -72,18 +73,35 @@ public class ControladorItem {
 		}
 		
 		this.itens.set(filmeId - 1, filme);
+		
+		serializarBancoDeDados();
+	}
+	
+	public void avaliar(int usuarioId, int filmeId, int notaInt) throws InvalidParameterException {
+		if (notaInt > 5 || notaInt < 0) throw new InvalidParameterException("Nota não pode ser menor que 0 ou maior que 5!");
+		
+		Filme filme = ((Filme) this.itens.get(filmeId - 1));
+		
+		filme.inserirNota(new Nota(usuarioId, notaInt, new Date()));
+		
+		this.itens.set(filmeId - 1, filme);
+		
+		serializarBancoDeDados();
 	}
 	
 	public void serializarBancoDeDados() {
 		try {
 			File fileItens = new File("./src/data/itens");
 			File fileNotas = new File("./src/data/notas");
+			File fileAssistidos = new File("./src/data/assistidos");
 			
 			fileItens.delete();
 			fileNotas.delete();
+			fileAssistidos.delete();
 			
 			BufferedWriter bwItens = new BufferedWriter(new FileWriter(fileItens));
 			BufferedWriter bwNotas = new BufferedWriter(new FileWriter(fileNotas));
+			BufferedWriter bwAssistidos = new BufferedWriter(new FileWriter(fileAssistidos));
 			String output;
 			
 			for (Item item : getItens()) {
@@ -135,6 +153,21 @@ public class ControladorItem {
 			}
 			
 			bwNotas.close();
+			
+			for (Item item : itens) {
+				Filme filme = (Filme) item;
+				
+				for (int usuario : filme.getAssistidoPor()) {
+					output = "";
+					
+					output += usuario + "\t";
+					output += filme.getId() + "\n";
+					
+					bwAssistidos.write(output);
+				}
+			}
+			
+			bwAssistidos.close();
 		} catch (IOException e) {
 			System.out.println("Erro ao serializar base de dados: " + e.getMessage());
 		}
@@ -142,7 +175,8 @@ public class ControladorItem {
 
 	public void deserializarBancoDeDados() {
 		try (BufferedReader brItens = new BufferedReader(new FileReader(new File("./src/data/itens")));
-			BufferedReader brNotas = new BufferedReader(new FileReader(new File("./src/data/u.data")))) {
+				BufferedReader brNotas = new BufferedReader(new FileReader(new File("./src/data/notas")));
+				BufferedReader brAssistido = new BufferedReader(new FileReader(new File("./src/data/assistidos")))) {
 			String linha = null;
 			Filme tempFilme;
 			String[] linhaSplit;
@@ -173,6 +207,7 @@ public class ControladorItem {
 				
 				getItens().add(tempFilme);
 			}
+			
 			while ((linha = brNotas.readLine()) != null) {
 				linhaSplit = linha.split("\t");
 				
@@ -183,8 +218,15 @@ public class ControladorItem {
 				this.itens.set(Integer.parseInt(linhaSplit[1]) - 1, filme);
 			}
 			
-			brItens.close();
-			brNotas.close();
+			while ((linha = brAssistido.readLine()) != null) {
+				linhaSplit = linha.split("\t");
+				
+				Filme filme = ((Filme) this.itens.get(Integer.parseInt(linhaSplit[1]) - 1)); 
+				filme.inserirAssistidoPor(Integer.parseInt(linhaSplit[0]));
+				
+				this.itens.set(Integer.parseInt(linhaSplit[1]) - 1, filme);
+			}
+			
 		} catch (FileNotFoundException e) {
 			System.out.println("Erro: arquivo não encontrado: " + e.getMessage());
 		} catch (ParseException e) {

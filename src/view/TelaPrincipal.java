@@ -36,6 +36,7 @@ import java.awt.Dimension;
 
 import javax.swing.JRadioButton;
 import javax.swing.JSlider;
+import javax.swing.SwingConstants;
 
 public class TelaPrincipal {
 	private static TelaPrincipal instancia;
@@ -46,6 +47,8 @@ public class TelaPrincipal {
 	private JButton btnMarcarVisto;
 	private JSlider slider;
 	private JButton btnEnviarAvaliao;
+	
+	int lastSelectedRowIndex;
 
 	private JSplitPane splitPane;
 
@@ -148,7 +151,7 @@ public class TelaPrincipal {
 				
 				ControladorItem.getInstance().setVisto(
 						ControladorLogin.getInstance().getUsuarioLogado().getId(), 
-						((Filme) ControladorItem.getInstance().getItens().get(table.getSelectedRow())).getId());
+						((Filme) ControladorItem.getInstance().getItens().get(lastSelectedRowIndex)).getId());
 				updateTableModel();
 			}
 		});
@@ -170,6 +173,16 @@ public class TelaPrincipal {
 		slider.setBackground(Color.DARK_GRAY);
 		
 		btnEnviarAvaliao = new JButton("Enviar avaliação");
+		btnEnviarAvaliao.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				btnEnviarAvaliao.setText("Mudar avaliação");
+				ControladorItem.getInstance().avaliar(
+						ControladorLogin.getInstance().getUsuarioLogado().getId(), 
+						lastSelectedRowIndex + 1, slider.getValue());
+				
+				TelaPrincipal.getInstance().updateTableModel();
+			}
+		});
 		btnEnviarAvaliao.setEnabled(false);
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
@@ -237,10 +250,11 @@ public class TelaPrincipal {
 						&& table.getSelectedRow() >= 0) {
 					table.setRowSelectionInterval(table.getSelectedRow(), table.getSelectedRow());
 					table.setColumnSelectionInterval(0, table.getColumnCount() - 1);
+					lastSelectedRowIndex = table.getSelectedRow();
 					
 					Nota nota = ControladorItem.getInstance().obterAvaliacao(
 							ControladorLogin.getInstance().getUsuarioLogado().getId(),
-							table.getSelectedRow() + 1);
+							lastSelectedRowIndex + 1);
 					
 					if (nota != null) {
 						slider.setValue(nota.getNota());
@@ -253,7 +267,7 @@ public class TelaPrincipal {
 					
 					if (ControladorItem.getInstance().visto(
 							ControladorLogin.getInstance().getUsuarioLogado().getId(),
-							table.getSelectedRow() + 1)) {
+							lastSelectedRowIndex + 1)) {
 						btnMarcarVisto.setText("Marcar como não visto");
 					} else {
 						btnMarcarVisto.setText("Marcar como visto");

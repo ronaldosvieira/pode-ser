@@ -39,15 +39,6 @@ public class ControladorGeral {
 		cItem.deserializarBancoDeDados();
 	}
 	
-	public void votar(int usuarioId, int filmeId, int notaInt) throws InvalidParameterException {
-		if (notaInt > 5 || notaInt < 0) throw new InvalidParameterException("Nota não pode ser menor que 0 ou maior que 5!");
-		
-		Filme filme = ((Filme) cItem.getItens().get(filmeId - 1));
-		Nota notaObj;
-		
-		filme.inserirNota(new Nota(usuarioId, notaInt, new Date()));
-	}
-	
 	public static void main(String[] args) {
 		ControladorGeral cg = ControladorGeral.getInstance();
 	}
