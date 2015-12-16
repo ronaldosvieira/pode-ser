@@ -116,7 +116,6 @@ public class TelaLogin extends JDialog {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ControladorGeral.getInstance().serializarBancoDeDados();
 				System.exit(0);
 			}
 		});
